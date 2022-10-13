@@ -1,12 +1,23 @@
+import config from '../../../Configs/Config.json';
+
+const {SERVER_API} = config;
+
 export default class HttpClient{
 
     constructor(){
         //Danh sách các API
         this.category = '/categoies';
         this.users = '/users';
+        this.songs = '/songs';
+    }
+
+    getUrl = (url) => {
+        return SERVER_API+url;
     }
 
     callApi = async (url, method='GET', body=null, token=null) => {
+
+        url = this.getUrl(url);
 
         const headers = {
             "Content-Type": "application/json"
@@ -34,7 +45,13 @@ export default class HttpClient{
         };
     }
 
-    get = (url, token) => {
+    get = (url, params={}, token) => {
+     
+        if (Object.keys(params).length){
+            const queryString = new URLSearchParams(params).toString();
+            url = url+'?'+queryString;
+        }
+        
         return this.callApi(url, 'GET', null, token);
     }
 

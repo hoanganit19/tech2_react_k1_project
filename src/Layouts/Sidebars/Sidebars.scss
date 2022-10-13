@@ -1,0 +1,13 @@
+.sidebar {
+  position: relative;
+
+  .sidebar__inner {
+    background: rgba(41, 21, 71, 0.8);
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 100vh;
+  }
+}
