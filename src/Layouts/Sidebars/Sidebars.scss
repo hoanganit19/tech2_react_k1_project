@@ -9,5 +9,41 @@
     bottom: 0;
     right: 0;
     height: 100vh;
+
+    .sidebar__inner--logo{
+      text-align: center;
+      img{
+        max-width: 80%;
+        height: auto;
+      }
+    }
+
+    .sidebar__inner--nav{
+      
+      margin-top: 15px;
+      padding: 15px 0;
+      ul{
+        li{
+          a{
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 10px 0;
+            &.active{
+              background: #efefef84;
+    
+            }
+          }
+        }
+      }
+      
+      .nav-group{
+        color: #fff;
+        padding: 0 15px;
+        margin-top: 15px;
+        border-top: 1px solid #ccc;
+        padding-top: 15px;
+      }
+    }
   }
 }

@@ -36,7 +36,10 @@ export default function SearchForm() {
 
   const getSearch = async (keyword) => {
     const result = await client.get(client.songs, 
-      { q: keyword, _limit: 5 }
+      { 
+        q: keyword, 
+        _limit: 5 
+      }
       );
     setSongs(result.data);
   };

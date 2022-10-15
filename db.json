@@ -68,7 +68,103 @@
       "updated_at": "2022-10-08 12:12:12"
     }
   ],
-  "playlists": [],
+  "playlists": [
+    {
+      "id": 1,
+      "name": "Bolero hay nhất 01",
+      "image": "https://photo-resize-zmp3.zmdcdn.me/w320_r1x1_webp/cover/1/5/9/2/159226aaebc0421c28d4921c041dc862.jpg",
+      "follow": 0,
+      "categoryId": 1,
+      "singleId": 0,
+      "userId": 0,
+      "created_at": "2022-10-08 12:12:12",
+      "updated_at": "2022-10-08 12:12:12"
+    },
+
+    {
+      "id": 2,
+      "name": "Bolero hay nhất 02",
+      "image": "https://photo-resize-zmp3.zmdcdn.me/w320_r1x1_webp/cover/1/5/9/2/159226aaebc0421c28d4921c041dc862.jpg",
+      "follow": 0,
+      "categoryId": 1,
+      "singleId": 0,
+      "userId": 0,
+      "created_at": "2022-10-08 12:12:12",
+      "updated_at": "2022-10-08 12:12:12"
+    },
+
+    {
+      "id": 3,
+      "name": "Bolero hay nhất 03",
+      "image": "https://photo-resize-zmp3.zmdcdn.me/w320_r1x1_webp/cover/1/5/9/2/159226aaebc0421c28d4921c041dc862.jpg",
+      "follow": 0,
+      "categoryId": 1,
+      "singleId": 0,
+      "userId": 0,
+      "created_at": "2022-10-08 12:12:12",
+      "updated_at": "2022-10-08 12:12:12"
+    },
+
+    {
+      "id": 4,
+      "name": "Bolero hay nhất 04",
+      "image": "https://photo-resize-zmp3.zmdcdn.me/w320_r1x1_webp/cover/1/5/9/2/159226aaebc0421c28d4921c041dc862.jpg",
+      "follow": 0,
+      "categoryId": 1,
+      "singleId": 0,
+      "userId": 0,
+      "created_at": "2022-10-08 12:12:12",
+      "updated_at": "2022-10-08 12:12:12"
+    },
+
+    {
+      "id": 5,
+      "name": "Bolero hay nhất 05",
+      "image": "https://photo-resize-zmp3.zmdcdn.me/w320_r1x1_webp/cover/1/5/9/2/159226aaebc0421c28d4921c041dc862.jpg",
+      "follow": 0,
+      "categoryId": 2,
+      "singleId": 0,
+      "userId": 0,
+      "created_at": "2022-10-08 12:12:12",
+      "updated_at": "2022-10-08 12:12:12"
+    },
+
+    {
+      "id": 6,
+      "name": "Bolero hay nhất 06",
+      "image": "https://photo-resize-zmp3.zmdcdn.me/w320_r1x1_webp/cover/1/5/9/2/159226aaebc0421c28d4921c041dc862.jpg",
+      "follow": 0,
+      "categoryId": 2,
+      "singleId": 0,
+      "userId": 0,
+      "created_at": "2022-10-08 12:12:12",
+      "updated_at": "2022-10-08 12:12:12"
+    },
+
+    {
+      "id": 7,
+      "name": "Bolero hay nhất 07",
+      "image": "https://photo-resize-zmp3.zmdcdn.me/w320_r1x1_webp/cover/1/5/9/2/159226aaebc0421c28d4921c041dc862.jpg",
+      "follow": 0,
+      "categoryId": 2,
+      "singleId": 0,
+      "userId": 0,
+      "created_at": "2022-10-08 12:12:12",
+      "updated_at": "2022-10-08 12:12:12"
+    },
+
+    {
+      "id": 8,
+      "name": "Bolero hay nhất 08",
+      "image": "https://photo-resize-zmp3.zmdcdn.me/w320_r1x1_webp/cover/1/5/9/2/159226aaebc0421c28d4921c041dc862.jpg",
+      "follow": 0,
+      "categoryId": 2,
+      "singleId": 0,
+      "userId": 0,
+      "created_at": "2022-10-08 12:12:12",
+      "updated_at": "2022-10-08 12:12:12"
+    }
+  ],
   "users": [
     {
       "id": 1,
@@ -115,5 +211,10 @@
       "created_at": "2022-10-08 12:12:12"
     }
   ],
-  "favouritePlaylists": []
+  "favouritePlaylists": [],
+
+  "options": {
+    "logo": "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/backgrounds/logo-dark.svg",
+    "categories_banner": "https://photo-zmp3.zmdcdn.me/cover/d/3/4/3/d3436727fdc88ee4abe0de9326a7c8da.jpg"
+  }
 }

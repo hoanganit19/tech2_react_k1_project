@@ -9,4 +9,31 @@
   bottom: 0;
   right: 0;
   height: 100vh;
+}
+.sidebar .sidebar__inner .sidebar__inner--logo {
+  text-align: center;
+}
+.sidebar .sidebar__inner .sidebar__inner--logo img {
+  max-width: 80%;
+  height: auto;
+}
+.sidebar .sidebar__inner .sidebar__inner--nav {
+  margin-top: 15px;
+  padding: 15px 0;
+}
+.sidebar .sidebar__inner .sidebar__inner--nav ul li a {
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 10px 0;
+}
+.sidebar .sidebar__inner .sidebar__inner--nav ul li a.active {
+  background: rgba(239, 239, 239, 0.5176470588);
+}
+.sidebar .sidebar__inner .sidebar__inner--nav .nav-group {
+  color: #fff;
+  padding: 0 15px;
+  margin-top: 15px;
+  border-top: 1px solid #ccc;
+  padding-top: 15px;
 }/*# sourceMappingURL=Sidebars.css.map */

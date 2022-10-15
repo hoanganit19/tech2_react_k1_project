@@ -6,9 +6,10 @@ export default class HttpClient{
 
     constructor(){
         //Danh sách các API
-        this.category = '/categoies';
+        this.categories = '/categories';
         this.users = '/users';
         this.songs = '/songs';
+        this.options = '/options';
     }
 
     getUrl = (url) => {
@@ -46,7 +47,7 @@ export default class HttpClient{
     }
 
     get = (url, params={}, token) => {
-     
+       
         if (Object.keys(params).length){
             const queryString = new URLSearchParams(params).toString();
             url = url+'?'+queryString;
