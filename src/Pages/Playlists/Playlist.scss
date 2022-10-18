@@ -1,0 +1,51 @@
+.playlist{
+    padding: 30px 0;
+    .playlist__image{
+        img{
+            border-radius: 10px;
+            width: 100%;
+        }
+    }
+
+    .playlist__info{
+        text-align: center;
+        margin: 10px 0;
+        a{
+            color: #fff;
+        }
+    }
+
+    .playlist__actions{
+        @extend .playlist__info;
+        button{
+            background: #460249;
+            border: none;
+        }
+        .favourite{
+            a{
+                background: rgb(81, 81, 81);
+                padding: 3px 7px;
+                border-radius: 50%;
+            }
+        }
+    }
+
+    .playlist__songs{
+        color: #fff;
+        .playlist--item{
+            a{
+                color: #fff;
+            }
+            img{
+                max-width: 5%;
+                margin-right: 5px;
+            }
+
+            span{
+                a{
+                    display: block;
+                }
+            }
+        }
+    }
+}

@@ -10,6 +10,8 @@ export default class HttpClient{
         this.users = '/users';
         this.songs = '/songs';
         this.options = '/options';
+        this.playlists = '/playlists';
+        this.songPlaylists = '/song_playlists';
     }
 
     getUrl = (url) => {

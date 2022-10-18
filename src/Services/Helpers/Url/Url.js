@@ -9,9 +9,9 @@ export default class Url {
         this.search = '/tim-kiem';
         this.profile= '/ca-nhan';
         this.categories = '/the-loai';
-        this.category = this.categories+'/{id}.html';
+        this.category = this.categories+'/{id}';
         this.song = '/bai-hat/{slug}-{id}.html';
-        this.playlist = '/danh-sach-phat/{id}.html';
+        this.playlist = '/danh-sach-phat/{id}';
     }
 
     getSearch = (params) => {

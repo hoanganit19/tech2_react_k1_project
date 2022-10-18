@@ -30,8 +30,8 @@ export default function Sidebars() {
           </Link>
         </div>
         <div className="sidebar__inner--nav">
-          <ul class="nav flex-column">
-            <li class="nav-item">
+          <ul className="nav flex-column">
+            <li className="nav-item">
               <NavLink to={url.profile} className="nav-link">
                 Cá nhân
               </NavLink>
@@ -39,19 +39,19 @@ export default function Sidebars() {
                 
               </a> */}
             </li>
-            <li class="nav-item">
+            <li className="nav-item">
               <NavLink to={url.categories} className="nav-link">
                 Thể loại
               </NavLink>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
+            <li className="nav-item">
+              <a className="nav-link" href="#">
                 Nhạc mới
               </a>
             </li>
 
-            <li class="nav-item">
-              <a class="nav-link" href="#">
+            <li className="nav-item">
+              <a className="nav-link" href="#">
                 Top 100
               </a>
             </li>
@@ -59,22 +59,22 @@ export default function Sidebars() {
 
           {isLogin() && (
             <>
-              <h4 class="nav-group">Thư viện</h4>
+              <h4 className="nav-group">Thư viện</h4>
               <ul className="nav flex-column">
-                <li class="nav-item">
-                  <a class="nav-link" aria-current="page" href="#">
+                <li className="nav-item">
+                  <a className="nav-link" aria-current="page" href="#">
                     Bài hát
                   </a>
                 </li>
 
-                <li class="nav-item">
-                  <a class="nav-link" aria-current="page" href="#">
+                <li className="nav-item">
+                  <a className="nav-link" aria-current="page" href="#">
                     Playlist
                   </a>
                 </li>
 
-                <li class="nav-item">
-                  <a class="nav-link" aria-current="page" href="#">
+                <li className="nav-item">
+                  <a className="nav-link" aria-current="page" href="#">
                     Gần đây
                   </a>
                 </li>
