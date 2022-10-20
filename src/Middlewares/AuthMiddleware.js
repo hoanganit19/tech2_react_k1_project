@@ -5,7 +5,7 @@ import Url from '../Services/Helpers/Url/Url'
 const url = new Url();
 
 export const isLogin = () => {
-  return true;
+  return false;
 }
 
 export default function AuthMiddleware() {

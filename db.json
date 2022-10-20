@@ -253,6 +253,19 @@
       "singleId": 1,
       "songId": 1,
       "created_at": "2022-10-08 12:12:12"
+    },
+    {
+      "id": 2,
+      "singleId": 2,
+      "songId": 1,
+      "created_at": "2022-10-08 12:12:12"
+    },
+    
+     {
+      "id": 3,
+      "singleId": 1,
+      "songId": 3,
+      "created_at": "2022-10-08 12:12:12"
     }
   ],
   "favouriteSong": [

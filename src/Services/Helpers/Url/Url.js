@@ -6,12 +6,13 @@ export default class Url {
         this.register = 'auth/register';
         this.forgotPassword = 'auth/forgot-password';
         this.logout = 'auth/logout';
-        this.search = '/tim-kiem';
+        this.search = '/search';
         this.profile= '/ca-nhan';
         this.categories = '/the-loai';
         this.category = this.categories+'/{id}';
-        this.song = '/bai-hat/{slug}-{id}.html';
+        this.song = '/bai-hat/{id}';
         this.playlist = '/danh-sach-phat/{id}';
+        this.single = '/ca-sy/{id}'
     }
 
     getSearch = (params) => {
@@ -24,10 +25,10 @@ export default class Url {
         return url
     }
 
-    getSong = (id, slug) => {
+    getSong = (id) => {
         //let url = '/bai-hat/'+slug+'-'+id+'.html';
         let url = this.song;
-        url = url.replace('{slug}', slug).replace('{id}', id);
+        url = url.replace('{id}', id);
         return url;
     }
 
@@ -39,6 +40,12 @@ export default class Url {
 
     getPlaylist = (id) => {
         let url = this.playlist;
+        url = url.replace('{id}', id);
+        return url;
+    }
+
+    getSingle = (id) => {
+        let url = this.single;
         url = url.replace('{id}', id);
         return url;
     }
