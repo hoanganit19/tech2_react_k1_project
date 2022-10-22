@@ -1,6 +1,7 @@
 import { routes } from "../../Routes/Routes";
 import Headers from "../Headers/Headers";
 import Sidebars from "../Sidebars/Sidebars";
+import Player from "../../Components/Player/Player";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "../../Assets/Styles/Styles.scss";
@@ -20,6 +21,7 @@ function Main() {
           </div>
         </div>
       </div>
+      <Player />
     </div>
   );
 }
