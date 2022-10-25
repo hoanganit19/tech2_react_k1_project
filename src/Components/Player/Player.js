@@ -2,6 +2,8 @@ import React, { useRef, useEffect, useState } from "react";
 import "./Player.scss";
 import "@fortawesome/fontawesome-free";
 import Time from "../../Services/Helpers/Date/Time";
+import { playerSelector, doPlay } from "./playerSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 const time = new Time();
 
@@ -12,11 +14,15 @@ export default function Player() {
 
   const [currentTime, setCurrentTime] = useState(0);
 
-  const [isPlay, setPlayStatus] = useState(false);
+  //const [isPlay, setPlayStatus] = useState(false);
 
   const [rateTimer, setRateTimer] = useState(0);
 
   const [volume, setVolume] = useState(100);
+
+  const playStatus = useSelector(playerSelector);
+
+  const dispatch = useDispatch();
 
   const handleInfoPlayer = () => {
     if (playerRef.current !== null) {
@@ -29,61 +35,73 @@ export default function Player() {
     const duration = playerRef.current.duration;
     setCurrentTime(currentTime);
 
-    const rateTimer = currentTime*100/duration;
+    const rateTimer = (currentTime * 100) / duration;
+
     setRateTimer(rateTimer);
-  }
+  };
 
   const handlePlay = () => {
-    if (!isPlay){
-        playerRef.current.play();
-        setPlayStatus(true);
-    }else{
-        playerRef.current.pause();
-        setPlayStatus(false);
+    if (!playStatus) {
+      playerRef.current.play();
+    } else {
+      playerRef.current.pause();
     }
-    
-  }
 
-  const setVolumeAudio  = (volume) => {
+    dispatch(doPlay(playStatus ? false : true));
+  };
+
+  const setVolumeAudio = (volume) => {
     setVolume(volume);
-    const volumeRate = volume/100;
+    const volumeRate = volume / 100;
     playerRef.current.volume = volumeRate;
-  }
+  };
 
   const handleVolume = (e) => {
     const volume = e.target.value;
-    
-    setVolumeAudio(volume)
-    
-  }
+
+    setVolumeAudio(volume);
+  };
 
   const handleMuteVolume = () => {
-    if (volume>0){
-        setVolumeAudio(0);
-    }else{
-        setVolumeAudio(100);
+    if (volume > 0) {
+      setVolumeAudio(0);
+    } else {
+      setVolumeAudio(100);
     }
-    
-  }
+  };
 
   const handleSeekTimer = (e) => {
     const rateTimer = e.target.value;
     setRateTimer(rateTimer);
     const duration = playerRef.current.duration;
     //convert phần trăm => thời gian
-    const currentTime = rateTimer/(100/duration);
+    const currentTime = rateTimer / (100 / duration);
     setCurrentTime(currentTime);
 
     playerRef.current.currentTime = currentTime;
 
     playerRef.current.pause();
 
-    setPlayStatus(false);
+    dispatch(doPlay(false));
 
     setTimeout(() => {
-        handlePlay();
+      handlePlay();
     }, 1000);
+  };
+
+  const handleEnded = () => {
+    playerRef.current.currentTime = 0;
+    playerRef.current.pause();
+    dispatch(doPlay(false));
   }
+
+  useEffect(() => {
+    if (playStatus){
+      playerRef.current.play()
+    }else{
+      playerRef.current.pause();
+    }
+  }, [playStatus]);
 
   return (
     <div className="player">
@@ -108,19 +126,16 @@ export default function Player() {
               <div className="player__inner--action">
                 <div className="row justify-content-center">
                   <div className="col-8">
-                    <div className="d-flex gap-5 justify-content-center">
+                    <div className="d-flex gap-5 align-items-center justify-content-center">
                       <span>
                         <i className="fa-solid fa-backward-step fa-2x"></i>
                       </span>
                       <span className="play-button" onClick={handlePlay}>
-                        {
-                            isPlay
-                            ?
-                            <i className="fa-solid fa-pause fa-3x"></i>
-                            :
-                            <i className="fa-solid fa-play fa-3x"></i>
-                        }
-                        
+                        {playStatus ? (
+                          <i className="fa-solid fa-pause fa-3x"></i>
+                        ) : (
+                          <i className="fa-solid fa-play fa-3x"></i>
+                        )}
                       </span>
                       <span>
                         <i className="fa-solid fa-forward-step fa-2x"></i>
@@ -142,7 +157,12 @@ export default function Player() {
                   <span>{time.getMins(duration)}</span>
                 </div>
               </div>
-              <audio ref={playerRef} onLoadedData={handleInfoPlayer} onTimeUpdate={handlePlaying}>
+              <audio
+                ref={playerRef}
+                onLoadedData={handleInfoPlayer}
+                onTimeUpdate={handlePlaying}
+                onEnded={handleEnded}
+              >
                 <source src="/mp3/hongnhan.mp3" type="audio/mp3" />
               </audio>
             </div>
@@ -150,16 +170,18 @@ export default function Player() {
           <div className="col-3 d-flex align-items-center justify-content-end">
             <div className="player__inner--volume d-flex gap-2 w-50">
               <span className="volume-button" onClick={handleMuteVolume}>
-                {
-                    volume>0
-                    ?
-                    <i className="fa-solid fa-volume-high"></i>
-                    :
-                    <i className="fa-solid fa-volume-xmark"></i>
-                }
-                
+                {volume > 0 ? (
+                  <i className="fa-solid fa-volume-high"></i>
+                ) : (
+                  <i className="fa-solid fa-volume-xmark"></i>
+                )}
               </span>
-              <input type={"range"} className="form-range" value={volume} onChange={handleVolume} />
+              <input
+                type={"range"}
+                className="form-range"
+                value={volume}
+                onChange={handleVolume}
+              />
             </div>
           </div>
         </div>

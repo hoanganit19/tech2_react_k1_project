@@ -1,9 +1,11 @@
 import {configureStore} from '@reduxjs/toolkit';
 import searchSlice from '../../Layouts/Headers/searchSlice';
+import playerSlice from '../../Components/Player/playerSlice';
 
 const rootReducer = {
     reducer: {
-        search: searchSlice
+        search: searchSlice,
+        player: playerSlice
     }
 }
 

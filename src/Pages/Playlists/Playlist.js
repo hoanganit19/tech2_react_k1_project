@@ -4,12 +4,17 @@ import Error404 from "../Errors/Error404";
 import "./Playlist.scss";
 import HttpClient from "../../Services/Helpers/Api/HttpClient";
 import Url from "../../Services/Helpers/Url/Url";
+import { playerSelector, doPlay } from "../../Components/Player/playerSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const client = new HttpClient();
 const url = new Url();
 
+let isFirstLoad = true;
+
 export default function Playlist() {
   const params = useParams();
+  
   const { id } = params;
 
   const [playlist, setPlaylist] = useState({});
@@ -19,6 +24,10 @@ export default function Playlist() {
   const [status, setStatus] = useState("pending");
 
   const [singlePlaylist, setSinglePlaylist] = useState([]);
+
+  const playStatus = useSelector(playerSelector);
+
+  const dispatch = useDispatch();
 
   const getPlaylist = async () => {
     const res = await client.get(client.playlists + "/" + id);
@@ -85,6 +94,11 @@ export default function Playlist() {
     getPlaylist();
   }, []);
 
+  const handlePlay = () => {
+    isFirstLoad = false;
+    dispatch(doPlay(playStatus?false:true));
+  }
+
   const renderPlaylist = () => {
     let jsx = null;
     if (status === "success") {
@@ -102,12 +116,21 @@ export default function Playlist() {
         );
       });
 
+      let classPlaying = null;
+      if (playStatus){
+        classPlaying = 'playing'
+      }else if (!isFirstLoad && !playStatus){
+        //classPlaying = 'playend';
+      }else{
+        classPlaying = '';
+      }
+
       jsx = (
         <section className="playlist">
           <div className="row">
             <div className="col-3">
               <div className="playlist__image">
-                <img src={playlist.image} />
+                <img className={classPlaying} src={playlist.image} />
               </div>
               <div className="playlist__info">
                 <h2>{playlist.name}</h2>
@@ -116,8 +139,15 @@ export default function Playlist() {
                 <p>{playlist.follow} người yêu thích</p>
               </div>
               <div className="playlist__actions">
-                <button type="button" className="btn btn-primary">
-                  <i className="fa-solid fa-play"></i> Tiếp tục phát
+                <button type="button" className="btn btn-primary" onClick={handlePlay}>
+                  {
+                    playStatus
+                    ? 
+                    <><i className="fa-solid fa-pause"></i> Tạm dừng</>
+                    :
+                    <><i className="fa-solid fa-play"></i> Tiếp tục phát</>
+                  }
+                  
                 </button>
                 <p className="text-center mt-2 favourite">
                   <a href="">
