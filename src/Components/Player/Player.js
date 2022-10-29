@@ -10,6 +10,8 @@ const time = new Time();
 export default function Player() {
   const playerRef = useRef(null);
 
+  //const playerSourceRef = useRef(null);
+
   const [duration, setDuration] = useState(0);
 
   const [currentTime, setCurrentTime] = useState(0);
@@ -20,24 +22,39 @@ export default function Player() {
 
   const [volume, setVolume] = useState(100);
 
-  const playStatus = useSelector(playerSelector);
+  const playInfo = useSelector(playerSelector);
+
+  const { isPlay: playStatus } = playInfo;
+
+  const { name, image, singleName, source } = playInfo.info;
 
   const dispatch = useDispatch();
 
-  const handleInfoPlayer = () => {
+  const handleInfoPlayer = async () => {
     if (playerRef.current !== null) {
       setDuration(playerRef.current.duration);
+
+      updateRateTimer();
     }
   };
 
-  const handlePlaying = () => {
+  const updateRateTimer = () => {
     const currentTime = playerRef.current.currentTime;
     const duration = playerRef.current.duration;
-    setCurrentTime(currentTime);
 
-    const rateTimer = (currentTime * 100) / duration;
+    if (!isNaN(duration)) {
+      setCurrentTime(currentTime);
 
-    setRateTimer(rateTimer);
+      const rateTimer = (currentTime * 100) / duration;
+
+      setRateTimer(rateTimer);
+    }
+  };
+  //Player đang chạy
+  const handlePlaying = async () => {
+    console.log("playing");
+
+    updateRateTimer();
   };
 
   const handlePlay = () => {
@@ -47,7 +64,10 @@ export default function Player() {
       playerRef.current.pause();
     }
 
-    dispatch(doPlay(playStatus ? false : true));
+    const playInfoUpdate = { ...playInfo };
+    playInfoUpdate.isPlay = playStatus ? false : true;
+
+    dispatch(doPlay(playInfoUpdate));
   };
 
   const setVolumeAudio = (volume) => {
@@ -72,8 +92,10 @@ export default function Player() {
 
   const handleSeekTimer = (e) => {
     const rateTimer = e.target.value;
+
     setRateTimer(rateTimer);
     const duration = playerRef.current.duration;
+
     //convert phần trăm => thời gian
     const currentTime = rateTimer / (100 / duration);
     setCurrentTime(currentTime);
@@ -82,7 +104,10 @@ export default function Player() {
 
     playerRef.current.pause();
 
-    dispatch(doPlay(false));
+    const playInfoUpdate = { ...playInfo };
+    playInfoUpdate.isPlay = playStatus ? false : true;
+
+    dispatch(doPlay(playInfoUpdate));
 
     setTimeout(() => {
       handlePlay();
@@ -92,16 +117,27 @@ export default function Player() {
   const handleEnded = () => {
     playerRef.current.currentTime = 0;
     playerRef.current.pause();
-    dispatch(doPlay(false));
-  }
+    const playInfoUpdate = { ...playInfo };
+    playInfoUpdate.isPlay = playStatus ? false : true;
+
+    dispatch(doPlay(playInfoUpdate));
+  };
 
   useEffect(() => {
-    if (playStatus){
-      playerRef.current.play()
-    }else{
+    if (playStatus) {
+      playerRef.current.play();
+    } else {
       playerRef.current.pause();
     }
   }, [playStatus]);
+
+
+  useEffect(() => {
+    playerRef.current.load();
+
+    playerRef.current.play();
+   
+  }, [playInfo.info]);
 
   return (
     <div className="player">
@@ -109,10 +145,10 @@ export default function Player() {
         <div className="row">
           <div className="col-3">
             <div className="player__song-info d-flex gap-3">
-              <img src="https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_webp/avatars/4/6/9/3/4693cff82edb7018039b8f9acc8fa40e.jpg" />
+              <img src={image} />
               <span className="d-flex flex-column justify-content-center">
-                <a href="#">Tên bài hát</a>
-                <a href="#">Ca sỹ</a>
+                <a href="#">{name}</a>
+                <a href="#">{singleName}</a>
               </span>
               <span className="d-flex flex-column justify-content-center">
                 <a href="#">
@@ -163,7 +199,7 @@ export default function Player() {
                 onTimeUpdate={handlePlaying}
                 onEnded={handleEnded}
               >
-                <source src="/mp3/hongnhan.mp3" type="audio/mp3" />
+                <source src={source} type="audio/mp3" />
               </audio>
             </div>
           </div>

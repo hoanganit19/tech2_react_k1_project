@@ -21,8 +21,7 @@ export default function Categories() {
 
   const getCateries = async () => {
     const response = await client.get(client.categories, {
-      _embed: "playlists",
-      _limit: 4,
+      _embed: "playlists"
     });
 
     if (response.response.ok) {
@@ -52,7 +51,10 @@ export default function Categories() {
             </h2>
             <div className="categories__item--list">
               <div className="row">
-                {playlists.map(({ id, name, image }) => {
+                {playlists.map(({ id, name, image }, index) => {
+                  if (index>=4){
+                    return false;
+                  }
                   return (
                     <div className="col-3" key={id}>
                       <div className="categories--item">

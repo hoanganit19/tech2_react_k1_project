@@ -1,7 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const init = {
-    isPlay: false
+   // isPlay: false,
+    isOpenPlayer: false,
+    playInfo: {
+        isPlay: false, //Trạng thái phát nhạc
+        info: {} //Thông tin bài hát: tên bài, ca sĩ, file mp3
+    }
 }
 
 const playerSlice = createSlice({
@@ -9,7 +14,12 @@ const playerSlice = createSlice({
     initialState: init,
     reducers: {
         doPlay: (state, action) => {   
-            state.isPlay = action.payload;
+            //state.isPlay = action.payload;
+            state.playInfo = action.payload;
+        },
+
+        doOpenPlayer: (state, action) => {
+            state.isOpenPlayer = action.payload
         }
     },
     extraReducers: {
@@ -17,10 +27,10 @@ const playerSlice = createSlice({
     }
 });
 
-export const playerSelector = (state) => state.player.isPlay;
+export const playerSelector = (state) => state.player.playInfo;
 
-export const playerListenerSelector = (state) => state.player.playerListener;
+export const openPlayerSelector = (state) => state.player.isOpenPlayer;
 
-export const {doPlay, doPlayerListener} = playerSlice.actions;
+export const {doPlay, doOpenPlayer} = playerSlice.actions;
 
 export default playerSlice.reducer;

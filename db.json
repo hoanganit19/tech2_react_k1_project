@@ -41,7 +41,7 @@
       "name": "Bài hát 1",
       "image": "https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_webp/avatars/4/6/9/3/4693cff82edb7018039b8f9acc8fa40e.jpg",
       "duration": "03:50",
-      "source": "",
+      "source": "/mp3/hongnhan.mp3",
       "follow": 0,
       "created_at": "2022-10-08 12:12:12",
       "updated_at": "2022-10-08 12:12:12"
@@ -51,7 +51,7 @@
       "name": "Bài hát 2",
       "image": "https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_webp/avatars/4/6/9/3/4693cff82edb7018039b8f9acc8fa40e.jpg",
       "duration": "03:50",
-      "source": "",
+      "source": "/mp3/jack.mp3",
       "follow": 0,
       "created_at": "2022-10-08 12:12:12",
       "updated_at": "2022-10-08 12:12:12"
@@ -62,7 +62,7 @@
       "name": "Ai chung tình được mãi",
       "image": "https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_webp/avatars/4/6/9/3/4693cff82edb7018039b8f9acc8fa40e.jpg",
       "duration": "03:50",
-      "source": "",
+      "source": "/mp3/jack1.mp3",
       "follow": 0,
       "created_at": "2022-10-08 12:12:12",
       "updated_at": "2022-10-08 12:12:12"

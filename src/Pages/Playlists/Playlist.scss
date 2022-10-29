@@ -58,6 +58,11 @@
 
     .playlist__songs{
         color: #fff;
+        tr{
+            &.highlight{
+                background: rgb(77, 77, 77);
+            }
+        }
         .playlist--item{
             a{
                 color: #fff;
