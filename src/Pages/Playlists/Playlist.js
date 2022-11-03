@@ -4,11 +4,19 @@ import Error404 from "../Errors/Error404";
 import "./Playlist.scss";
 import HttpClient from "../../Services/Helpers/Api/HttpClient";
 import Url from "../../Services/Helpers/Url/Url";
-import { playerSelector, doPlay, doOpenPlayer } from "../../Components/Player/playerSlice";
+import {
+  playerSelector,
+  doPlay,
+  doOpenPlayer,
+} from "../../Components/Player/playerSlice";
 import { useDispatch, useSelector } from "react-redux";
+import Array from "../../Services/Helpers/Array/Array";
+import Number from "../../Services/Helpers/Number/Number";
 
 const client = new HttpClient();
 const url = new Url();
+const array = new Array();
+const number = new Number();
 
 let isFirstLoad = true;
 
@@ -25,11 +33,11 @@ export default function Playlist() {
 
   const [singlePlaylist, setSinglePlaylist] = useState([]);
 
-  const [songPlaying, setSongPlaying] = useState(null); 
-
+  const [songPlaying, setSongPlaying] = useState(null);
+ 
   const playInfo = useSelector(playerSelector);
 
-  const {isPlay:playStatus} = playInfo;
+  const { isPlay: playStatus } = playInfo;
 
   const dispatch = useDispatch();
 
@@ -96,33 +104,81 @@ export default function Playlist() {
 
   useEffect(() => {
     getPlaylist();
+    
   }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem('currentSong')){
+      const song = array.getItem(songs, 'id', localStorage.getItem('currentSong'));
+      
+      if (song){
+        handlePlaySong(song, false, false);
+      }
+    }
+  }, [songs])
+
+  useEffect(() => {
+    if (playInfo.action === "next" || playInfo.action === "prev") {
+      let index = array.getIndex(songs, "id", songPlaying);
+      if (playInfo.action === "next") {
+        index++;
+        if (index > songs.length - 1) {
+          index = 0;
+        }
+      } else {
+        index--;
+        if (index < 0) {
+          index = songs.length - 1;
+        }
+      }
+
+      handlePlaySong(songs[index], true);
+    }
+  }, [playInfo.action]);
 
   //Click vào nút tiếp tục phát
   const handlePlay = () => {
     //isFirstLoad = false;
-    const playInfoUpdate = {...playInfo}
-    playInfoUpdate.isPlay = playStatus ? false : true
+
+    const playInfoUpdate = { ...playInfo };
+    playInfoUpdate.isPlay = playStatus ? false : true;
 
     dispatch(doPlay(playInfoUpdate));
-   // dispatch(doPlay(playStatus ? false : true));
+    console.log(songPlaying);
+    if (songPlaying===null){
+      const index = number.getRandomInt(0, songs.length-1);
+      handlePlaySong(songs[index]);
+    }
+  
   };
 
   //Click vào từng bài hát trong playlist
-  const handlePlaySong = ({id, name, image, source, single}) => {
+  const handlePlaySong = (
+    { id, name, image, source, single },
+    isPrevNext = false,
+    isPlay = true
+  ) => {
     setSongPlaying(id); //Cập nhật id bài hát muốn nghe
-    const {name:singleName} = single;
-    dispatch(doOpenPlayer(true));
-    const playInfoUpdate = {...playInfo}
+    localStorage.setItem('currentSong', id);
+    const { name: singleName } = single;
+
+    const playInfoUpdate = { ...playInfo };
     playInfoUpdate.info = {
       id: id,
       name: name,
       image: image,
       singleName: singleName,
-      source: source
-    }
-    playInfoUpdate.isPlay = true;
+      source: source,
+      isPlaylist: true,
+    };
+    playInfoUpdate.isPlay = isPlay;
 
+    if (isPrevNext) {
+      playInfoUpdate.action = "";
+    } else {
+      dispatch(doOpenPlayer(true));
+    }
+  
     dispatch(doPlay(playInfoUpdate));
   };
 
@@ -171,15 +227,23 @@ export default function Playlist() {
                   className="btn btn-primary"
                   onClick={handlePlay}
                 >
-                  {playStatus ? (
-                    <>
-                      <i className="fa-solid fa-pause"></i> Tạm dừng
-                    </>
-                  ) : (
-                    <>
-                      <i className="fa-solid fa-play"></i> Tiếp tục phát
-                    </>
-                  )}
+                  {
+                    songPlaying===null 
+                    ?
+                      <>
+                        <i className="fa-solid fa-play"></i> Phát ngẫu nhiên
+                      </>
+                    :
+                    playStatus ? (
+                      <>
+                        <i className="fa-solid fa-pause"></i> Tạm dừng
+                      </>
+                    ) : (
+                      <>
+                        <i className="fa-solid fa-play"></i> Tiếp tục phát
+                      </>
+                    )
+                  }
                 </button>
                 <p className="text-center mt-2 favourite">
                   <a href="">
@@ -198,32 +262,46 @@ export default function Playlist() {
                 </thead>
                 <tbody>
                   {songs.length ? (
-                    songs.map(({ id, name, duration, image, single, source }) => {
-                      //console.log(single);
-                      const { name: singleName, id: singleId } = single;
-                      return (
-                        <tr key={id} className={id===songPlaying ? 'highlight':''}>
-                          <td>
-                            <div className="playlist--item d-flex">
-                              <img src={image} />
-                              <span>
-                                <a href="#" onClick={(e) => {
-                                  e.preventDefault();
-                                  handlePlaySong({id, name, image, single, source});
-                                }}>
-                                  {name}
-                                </a>
+                    songs.map(
+                      ({ id, name, duration, image, single, source }) => {
+                        //console.log(single);
+                        const { name: singleName, id: singleId } = single;
+                        return (
+                          <tr
+                            key={id}
+                            className={id === songPlaying ? "highlight" : ""}
+                          >
+                            <td>
+                              <div className="playlist--item d-flex">
+                                <img src={image} />
+                                <span>
+                                  <a
+                                    href="#"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      handlePlaySong({
+                                        id,
+                                        name,
+                                        image,
+                                        single,
+                                        source,
+                                      });
+                                    }}
+                                  >
+                                    {name}
+                                  </a>
 
-                                <Link to={url.getSingle(singleId)}>
-                                  {singleName}
-                                </Link>
-                              </span>
-                            </div>
-                          </td>
-                          <td>{duration}</td>
-                        </tr>
-                      );
-                    })
+                                  <Link to={url.getSingle(singleId)}>
+                                    {singleName}
+                                  </Link>
+                                </span>
+                              </div>
+                            </td>
+                            <td>{duration}</td>
+                          </tr>
+                        );
+                      }
+                    )
                   ) : (
                     <tr>
                       <td colSpan={2} className="text-center">

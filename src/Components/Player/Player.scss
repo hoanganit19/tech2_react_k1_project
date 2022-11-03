@@ -39,4 +39,12 @@
   .volume-button{
     @extend .play-button;
   }
+  
+  .prev-button{
+    @extend .play-button;
+  }
+
+  .next-button{
+    @extend .play-button;
+  }
 }

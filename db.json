@@ -62,7 +62,18 @@
       "name": "Ai chung tình được mãi",
       "image": "https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_webp/avatars/4/6/9/3/4693cff82edb7018039b8f9acc8fa40e.jpg",
       "duration": "03:50",
-      "source": "/mp3/jack1.mp3",
+      "source": "/mp3/ai-chung-tinh-duoc-mai.mp3",
+      "follow": 0,
+      "created_at": "2022-10-08 12:12:12",
+      "updated_at": "2022-10-08 12:12:12"
+    },
+
+    {
+      "id": 4,
+      "name": "Yêu vội vàng Remix",
+      "image": "https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_webp/avatars/4/6/9/3/4693cff82edb7018039b8f9acc8fa40e.jpg",
+      "duration": "03:50",
+      "source": "/mp3/yeu-voi-vang-remix.mp3",
       "follow": 0,
       "created_at": "2022-10-08 12:12:12",
       "updated_at": "2022-10-08 12:12:12"
@@ -245,7 +256,15 @@
     "playlistId": 2,
     "songId": 3,
     "updated_at":"2022-10-08 12:12:12"
+  },
+
+  {
+    "id": 6,
+    "playlistId": 1,
+    "songId": 4,
+    "updated_at":"2022-10-08 12:12:12"
   }
+
 ],
   "song_single": [
     {
@@ -265,6 +284,13 @@
       "id": 3,
       "singleId": 1,
       "songId": 3,
+      "created_at": "2022-10-08 12:12:12"
+    },
+
+    {
+      "id": 4,
+      "singleId": 1,
+      "songId": 4,
       "created_at": "2022-10-08 12:12:12"
     }
   ],

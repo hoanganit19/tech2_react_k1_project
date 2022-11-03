@@ -26,7 +26,7 @@ export default function Player() {
 
   const { isPlay: playStatus } = playInfo;
 
-  const { name, image, singleName, source } = playInfo.info;
+  const { id, name, image, singleName, source, isPlaylist } = playInfo.info;
 
   const dispatch = useDispatch();
 
@@ -52,8 +52,6 @@ export default function Player() {
   };
   //Player đang chạy
   const handlePlaying = async () => {
-    console.log("playing");
-
     updateRateTimer();
   };
 
@@ -119,7 +117,7 @@ export default function Player() {
     playerRef.current.pause();
     const playInfoUpdate = { ...playInfo };
     playInfoUpdate.isPlay = playStatus ? false : true;
-
+    playInfoUpdate.action = 'next';
     dispatch(doPlay(playInfoUpdate));
   };
 
@@ -130,14 +128,31 @@ export default function Player() {
       playerRef.current.pause();
     }
   }, [playStatus]);
-
-
+  
   useEffect(() => {
     playerRef.current.load();
 
-    playerRef.current.play();
-   
+    if (playInfo.isPlay){
+      playerRef.current.play();
+    }
+    
   }, [playInfo.info]);
+
+  const handleNextSong = () => {
+    if (isPlaylist){
+      const playInfoUpdate = {...playInfo}
+      playInfoUpdate.action = 'next';
+      dispatch(doPlay(playInfoUpdate));
+    }
+  };
+
+  const handlePrevSong = () => {
+    if (isPlaylist){
+      const playInfoUpdate = {...playInfo}
+      playInfoUpdate.action = 'prev';
+      dispatch(doPlay(playInfoUpdate));
+    }
+  };
 
   return (
     <div className="player">
@@ -163,7 +178,7 @@ export default function Player() {
                 <div className="row justify-content-center">
                   <div className="col-8">
                     <div className="d-flex gap-5 align-items-center justify-content-center">
-                      <span>
+                      <span className="prev-button" onClick={handlePrevSong}>
                         <i className="fa-solid fa-backward-step fa-2x"></i>
                       </span>
                       <span className="play-button" onClick={handlePlay}>
@@ -173,7 +188,7 @@ export default function Player() {
                           <i className="fa-solid fa-play fa-3x"></i>
                         )}
                       </span>
-                      <span>
+                      <span className="next-button" onClick={handleNextSong}>
                         <i className="fa-solid fa-forward-step fa-2x"></i>
                       </span>
                     </div>
@@ -198,6 +213,7 @@ export default function Player() {
                 onLoadedData={handleInfoPlayer}
                 onTimeUpdate={handlePlaying}
                 onEnded={handleEnded}
+  
               >
                 <source src={source} type="audio/mp3" />
               </audio>
