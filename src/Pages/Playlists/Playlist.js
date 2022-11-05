@@ -162,6 +162,7 @@ export default function Playlist() {
   ) => {
     setSongPlaying(id); //Cập nhật id bài hát muốn nghe
     localStorage.setItem('currentSong', id);
+    localStorage.setItem('currentTimeSong', 0);
     //const { name: singleName } = single;
 
     const playInfoUpdate = { ...playInfo };

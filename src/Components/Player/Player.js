@@ -7,6 +7,10 @@ import { useSelector, useDispatch } from "react-redux";
 
 const time = new Time();
 
+const currentTimeSong = localStorage.getItem("currentTimeSong") ?? 0;
+
+let firstLoad = false;
+
 export default function Player() {
   const playerRef = useRef(null);
 
@@ -33,13 +37,23 @@ export default function Player() {
   const handleInfoPlayer = async () => {
     if (playerRef.current !== null) {
       setDuration(playerRef.current.duration);
-
-      updateRateTimer();
+      if (firstLoad) {
+        updateRateTimer(currentTimeSong);
+        firstLoad = false;
+      }
     }
   };
 
-  const updateRateTimer = () => {
-    const currentTime = playerRef.current.currentTime;
+  const updateRateTimer = (time = 0) => {
+    let currentTime = playerRef.current.currentTime;
+
+    if (time > 0) {
+      currentTime = time;
+      playerRef.current.currentTime = time;
+    }
+
+    localStorage.setItem("currentTimeSong", currentTime);
+
     const duration = playerRef.current.duration;
 
     if (!isNaN(duration)) {
@@ -89,9 +103,8 @@ export default function Player() {
   };
 
   const handleSeekTimer = (e) => {
-   
     const rateTimer = Math.round(e.target.value);
-    
+
     setRateTimer(rateTimer);
     const duration = playerRef.current.duration;
 
@@ -107,44 +120,43 @@ export default function Player() {
     playerRef.current.pause();
     const playInfoUpdate = { ...playInfo };
     playInfoUpdate.isPlay = playStatus ? false : true;
-    playInfoUpdate.action = 'next';
+    playInfoUpdate.action = "next";
     dispatch(doPlay(playInfoUpdate));
   };
 
   useEffect(() => {
     setVolumeAudio(50);
+    firstLoad = true;
   }, []);
 
   useEffect(() => {
-   
     if (playStatus) {
       playerRef.current.play();
     } else {
       playerRef.current.pause();
     }
   }, [playStatus]);
-  
+
   useEffect(() => {
     playerRef.current.load();
 
-    if (playInfo.isPlay){
+    if (playInfo.isPlay) {
       playerRef.current.play();
     }
-    
   }, [playInfo.info]);
 
   const handleNextSong = () => {
-    if (isPlaylist){
-      const playInfoUpdate = {...playInfo}
-      playInfoUpdate.action = 'next';
+    if (isPlaylist) {
+      const playInfoUpdate = { ...playInfo };
+      playInfoUpdate.action = "next";
       dispatch(doPlay(playInfoUpdate));
     }
   };
 
   const handlePrevSong = () => {
-    if (isPlaylist){
-      const playInfoUpdate = {...playInfo}
-      playInfoUpdate.action = 'prev';
+    if (isPlaylist) {
+      const playInfoUpdate = { ...playInfo };
+      playInfoUpdate.action = "prev";
       dispatch(doPlay(playInfoUpdate));
     }
   };
@@ -208,7 +220,6 @@ export default function Player() {
                 onLoadedData={handleInfoPlayer}
                 onTimeUpdate={handlePlaying}
                 onEnded={handleEnded}
-  
               >
                 <source src={source} type="audio/mp3" />
               </audio>
