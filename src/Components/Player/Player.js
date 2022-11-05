@@ -89,8 +89,9 @@ export default function Player() {
   };
 
   const handleSeekTimer = (e) => {
-    const rateTimer = e.target.value;
-
+   
+    const rateTimer = Math.round(e.target.value);
+    
     setRateTimer(rateTimer);
     const duration = playerRef.current.duration;
 
@@ -99,17 +100,6 @@ export default function Player() {
     setCurrentTime(currentTime);
 
     playerRef.current.currentTime = currentTime;
-
-    playerRef.current.pause();
-
-    const playInfoUpdate = { ...playInfo };
-    playInfoUpdate.isPlay = playStatus ? false : true;
-
-    dispatch(doPlay(playInfoUpdate));
-
-    setTimeout(() => {
-      handlePlay();
-    }, 1000);
   };
 
   const handleEnded = () => {
@@ -122,6 +112,11 @@ export default function Player() {
   };
 
   useEffect(() => {
+    setVolumeAudio(50);
+  }, []);
+
+  useEffect(() => {
+   
     if (playStatus) {
       playerRef.current.play();
     } else {

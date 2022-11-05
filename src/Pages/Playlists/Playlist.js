@@ -71,11 +71,13 @@ export default function Playlist() {
 
             if (resSongSingle.data.length) {
               let singles = [];
+             
               for (const index in resSongSingle.data) {
                 const { singleId } = resSongSingle.data[index];
                 const resSingle = await client.get(
                   client.single + "/" + singleId
                 );
+                
                 resSongs.data[index].single = resSingle.data;
 
                 singles.push(resSingle.data); //push ca sĩ hát trong cả playlist
@@ -144,7 +146,7 @@ export default function Playlist() {
     playInfoUpdate.isPlay = playStatus ? false : true;
 
     dispatch(doPlay(playInfoUpdate));
-    console.log(songPlaying);
+   
     if (songPlaying===null){
       const index = number.getRandomInt(0, songs.length-1);
       handlePlaySong(songs[index]);
@@ -160,14 +162,14 @@ export default function Playlist() {
   ) => {
     setSongPlaying(id); //Cập nhật id bài hát muốn nghe
     localStorage.setItem('currentSong', id);
-    const { name: singleName } = single;
+    //const { name: singleName } = single;
 
     const playInfoUpdate = { ...playInfo };
     playInfoUpdate.info = {
       id: id,
       name: name,
       image: image,
-      singleName: singleName,
+      singleName: single?.name,
       source: source,
       isPlaylist: true,
     };
@@ -183,6 +185,7 @@ export default function Playlist() {
   };
 
   const renderPlaylist = () => {
+    
     let jsx = null;
     if (status === "success") {
       const singles = singlePlaylist.map(({ id, name }, index) => {
@@ -264,8 +267,8 @@ export default function Playlist() {
                   {songs.length ? (
                     songs.map(
                       ({ id, name, duration, image, single, source }) => {
-                        //console.log(single);
-                        const { name: singleName, id: singleId } = single;
+                        
+                        //const { name: singleName, id: singleId } = single;
                         return (
                           <tr
                             key={id}
@@ -291,8 +294,8 @@ export default function Playlist() {
                                     {name}
                                   </a>
 
-                                  <Link to={url.getSingle(singleId)}>
-                                    {singleName}
+                                  <Link to={url.getSingle(single?.id)}>
+                                    {single?.name}
                                   </Link>
                                 </span>
                               </div>
