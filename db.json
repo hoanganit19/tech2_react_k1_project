@@ -200,27 +200,7 @@
     }
   ],
   "users": [
-    {
-      "id": 1,
-      "name": "Hoàng An",
-      "email": "hoangan.web@gmail.com",
-      "password": "1234567",
-      "avatar": "",
-      "created_at": "2022-10-08 12:12:12",
-      "updated_at": "2022-10-08 12:12:12"
-    },
-    {
-      "email": "admin@gmail.com",
-      "password": "$2a$10$CabrKep4Qu0g6RormkiT7OyCw8Un2RanbpHfg69UNPB6WuXJysAvC",
-      "name": "An Test",
-      "id": 2
-    },
-    {
-      "email": "admin1@gmail.com",
-      "password": "$2a$10$3jHKlvaaC8ig.nAGzHD1FuzXXtdXaY81cCk9lv1oo7EftMyA3FQai",
-      "name": "An Test",
-      "id": 3
-    }
+    
   ],
   "song_playlists": [
     {

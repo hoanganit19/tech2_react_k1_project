@@ -1,26 +1,57 @@
-import React, {useState} from "react";
-import clsx from 'clsx';
+import React, { useState } from "react";
+import clsx from "clsx";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function Profile() {
-  
   const [showDropdown, setDropdown] = useState(false);
+
+  const { loginWithRedirect, isAuthenticated, user, logout, isLoading } = useAuth0();
+
+  //Kiểm tra trạng thái đăng nhập
+  //localStorage.removeItem('isLogin');
+  
+  if (!isLoading){
+    localStorage.setItem('isLogin', isAuthenticated?1:0);
+  }
 
   const handleToggleDropdown = (e) => {
     e.preventDefault();
-    setDropdown(showDropdown?false:true);
-  }
+    setDropdown(showDropdown ? false : true);
+  };
 
   return (
     <div className="header__profile">
-      <a href="#" onClick={handleToggleDropdown}>
-        <img src="https://s120-ava-talk-zmp3.zmdcdn.me/5/e/a/5/15/120/c1604d29641e7fd7ad325bfa0f2a29b1.jpg" />
-      </a>
-      <div className={clsx('header__profile--inner', showDropdown&&'open')}>
-        <ul>
-          <li><a href="">Cá nhân</a></li>
-          <li><a href="">Đăng xuất</a></li>
-        </ul>
-      </div>
+      {isAuthenticated ? (
+        <>
+          <a href="#" onClick={handleToggleDropdown}>
+            <img src={user?.picture} />
+          </a>
+          <div
+            className={clsx("header__profile--inner", showDropdown && "open")}
+          >
+            <ul>
+              <li>
+                <a href="">Cá nhân</a>
+              </li>
+              <li>
+                <a href="#" onClick={(e) => {
+                  e.preventDefault();
+                  logout({ returnTo: window.location.origin })}}>Đăng xuất</a>
+              </li>
+            </ul>
+          </div>
+        </>
+      ) : (
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            loginWithRedirect({ui_locales: 'vi'});
+          }}
+        >
+          <img src="https://i.pinimg.com/originals/ff/a0/9a/ffa09aec412db3f54deadf1b3781de2a.png" />
+        </a>
+      )}
     </div>
   );
 }
