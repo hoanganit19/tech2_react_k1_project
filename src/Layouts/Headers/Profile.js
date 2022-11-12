@@ -1,18 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useSelector } from "react-redux";
+import { profileSelector } from "./profileSlice";
 
 export default function Profile() {
   const [showDropdown, setDropdown] = useState(false);
 
-  const { loginWithRedirect, isAuthenticated, user, logout, isLoading } = useAuth0();
+  const { loginWithRedirect, logout } = useAuth0();
 
   //Kiểm tra trạng thái đăng nhập
   //localStorage.removeItem('isLogin');
   
+
+  const userInfo = useSelector(profileSelector);
+
+  const {info:user, isAuthenticated, isLoading} = userInfo;
+
   if (!isLoading){
     localStorage.setItem('isLogin', isAuthenticated?1:0);
   }
+
 
   const handleToggleDropdown = (e) => {
     e.preventDefault();

@@ -56,7 +56,6 @@
       "created_at": "2022-10-08 12:12:12",
       "updated_at": "2022-10-08 12:12:12"
     },
-
     {
       "id": 3,
       "name": "Ai chung tình được mãi",
@@ -67,7 +66,6 @@
       "created_at": "2022-10-08 12:12:12",
       "updated_at": "2022-10-08 12:12:12"
     },
-
     {
       "id": 4,
       "name": "Yêu vội vàng Remix",
@@ -91,7 +89,6 @@
       "created_at": "2022-10-08 12:12:12",
       "updated_at": "2022-10-08 12:12:12"
     },
-
     {
       "id": 2,
       "name": "Bolero hay nhất 02",
@@ -103,7 +100,6 @@
       "created_at": "2022-10-08 12:12:12",
       "updated_at": "2022-10-08 12:12:12"
     },
-
     {
       "id": 3,
       "name": "Bolero hay nhất 03",
@@ -115,7 +111,6 @@
       "created_at": "2022-10-08 12:12:12",
       "updated_at": "2022-10-08 12:12:12"
     },
-
     {
       "id": 4,
       "name": "Bolero hay nhất 04",
@@ -127,7 +122,6 @@
       "created_at": "2022-10-08 12:12:12",
       "updated_at": "2022-10-08 12:12:12"
     },
-
     {
       "id": 5,
       "name": "Bolero hay nhất 05",
@@ -139,7 +133,6 @@
       "created_at": "2022-10-08 12:12:12",
       "updated_at": "2022-10-08 12:12:12"
     },
-
     {
       "id": 6,
       "name": "Bolero hay nhất 06",
@@ -151,7 +144,6 @@
       "created_at": "2022-10-08 12:12:12",
       "updated_at": "2022-10-08 12:12:12"
     },
-
     {
       "id": 7,
       "name": "Bolero hay nhất 07",
@@ -163,7 +155,6 @@
       "created_at": "2022-10-08 12:12:12",
       "updated_at": "2022-10-08 12:12:12"
     },
-
     {
       "id": 8,
       "name": "Bolero hay nhất 08",
@@ -186,7 +177,6 @@
       "created_at": "2022-10-08 12:12:12",
       "updated_at": "2022-10-08 12:12:12"
     },
-
     {
       "id": 10,
       "name": "Bolero hay nhất 02",
@@ -200,52 +190,71 @@
     }
   ],
   "users": [
-    
+    {
+      "given_name": "Hoàng An",
+      "family_name": "Unicode",
+      "nickname": "hoangan.web",
+      "name": "Hoàng An Unicode",
+      "picture": "https://lh3.googleusercontent.com/a/ALm5wu2FqJkvYAp3FiZd8Z3-VFOUAdHoOIYvGJOnVTp1Rg=s96-c",
+      "locale": "vi",
+      "updated_at": "2022-11-12T03:35:43.390Z",
+      "email": "hoangan.web@gmail.com",
+      "email_verified": true,
+      "sub": "google-oauth2|102692407747090274853",
+      "id": 1
+    },
+    {
+      "given_name": "Hoang An",
+      "family_name": "Ta",
+      "nickname": "contact",
+      "name": "Hoang An Ta",
+      "picture": "https://lh3.googleusercontent.com/a/ALm5wu0_UpyurBLzBsMWiq-p3d5Ni25t_xSoyVPuDxXl=s96-c",
+      "locale": "en",
+      "updated_at": "2022-11-12T04:01:39.685Z",
+      "email": "contact@unicode.vn",
+      "email_verified": true,
+      "sub": "google-oauth2|107130312587484198785",
+      "id": 2
+    }
   ],
   "song_playlists": [
     {
-    "id": 1,
-    "playlistId": 1,
-    "songId": 1,
-    "updated_at":"2022-10-08 12:12:12"
-  },
-
-  {
-    "id": 2,
-    "playlistId": 1,
-    "songId": 2,
-    "updated_at":"2022-10-08 12:12:12"
-  },
-
-  {
-    "id": 3,
-    "playlistId": 1,
-    "songId": 3,
-    "updated_at":"2022-10-08 12:12:12"
-  },
-
-  {
-    "id": 4,
-    "playlistId": 2,
-    "songId": 2,
-    "updated_at":"2022-10-08 12:12:12"
-  },
-
-  {
-    "id": 5,
-    "playlistId": 2,
-    "songId": 3,
-    "updated_at":"2022-10-08 12:12:12"
-  },
-
-  {
-    "id": 6,
-    "playlistId": 1,
-    "songId": 4,
-    "updated_at":"2022-10-08 12:12:12"
-  }
-
-],
+      "id": 1,
+      "playlistId": 1,
+      "songId": 1,
+      "updated_at": "2022-10-08 12:12:12"
+    },
+    {
+      "id": 2,
+      "playlistId": 1,
+      "songId": 2,
+      "updated_at": "2022-10-08 12:12:12"
+    },
+    {
+      "id": 3,
+      "playlistId": 1,
+      "songId": 3,
+      "updated_at": "2022-10-08 12:12:12"
+    },
+    {
+      "id": 4,
+      "playlistId": 2,
+      "songId": 2,
+      "updated_at": "2022-10-08 12:12:12"
+    },
+    {
+      "id": 5,
+      "playlistId": 2,
+      "songId": 3,
+      "updated_at": "2022-10-08 12:12:12"
+    },
+    {
+      "id": 6,
+      "playlistId": 1,
+      "songId": 4,
+      "updated_at": "2022-10-08 12:12:12"
+    }
+  ],
   "song_single": [
     {
       "id": 1,
@@ -259,14 +268,12 @@
       "songId": 2,
       "created_at": "2022-10-08 12:12:12"
     },
-    
-     {
+    {
       "id": 3,
       "singleId": 1,
       "songId": 3,
       "created_at": "2022-10-08 12:12:12"
     },
-
     {
       "id": 4,
       "singleId": 1,
@@ -288,8 +295,23 @@
       "created_at": "2022-10-08 12:12:12"
     }
   ],
-  "favouritePlaylists": [],
-
+  "favouritePlaylists": [
+    {
+      "playlistIds": 1,
+      "userId": 2,
+      "id": 1
+    },
+    {
+      "playlistIds": 1,
+      "userId": 1,
+      "id": 2
+    },
+    {
+      "playlistIds": 2,
+      "userId": 1,
+      "id": 3
+    }
+  ],
   "options": {
     "logo": "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/backgrounds/logo-dark.svg",
     "categories_banner": "https://photo-zmp3.zmdcdn.me/cover/d/3/4/3/d3436727fdc88ee4abe0de9326a7c8da.jpg"

@@ -13,6 +13,10 @@ import { useDispatch, useSelector } from "react-redux";
 import Array from "../../Services/Helpers/Array/Array";
 import Number from "../../Services/Helpers/Number/Number";
 
+import {profileSelector} from '../../Layouts/Headers/profileSlice';
+
+import { useAuth0 } from "@auth0/auth0-react";
+
 const client = new HttpClient();
 const url = new Url();
 const array = new Array();
@@ -34,12 +38,20 @@ export default function Playlist() {
   const [singlePlaylist, setSinglePlaylist] = useState([]);
 
   const [songPlaying, setSongPlaying] = useState(null);
+
+  const [isFavouritePlaylists, setIsFavouritePlaylists] = useState(false);
  
   const playInfo = useSelector(playerSelector);
 
   const { isPlay: playStatus } = playInfo;
 
   const dispatch = useDispatch();
+
+  const userInfo = useSelector(profileSelector);
+
+  const {info: user, isLoading, isAuthenticated} = userInfo;
+
+  const {loginWithRedirect} = useAuth0();
 
   const getPlaylist = async () => {
     const res = await client.get(client.playlists + "/" + id);
@@ -104,10 +116,29 @@ export default function Playlist() {
     }
   };
 
+  const getUserIdFavouritePlaylists = async () => {
+    
+    const res = await client.get(client.favouritePlaylists, {playlistIds: id, userId: user.id});
+  
+    if (res.response.ok){
+      const data = res.data;
+
+      if (data.length){
+        setIsFavouritePlaylists(true);
+      }
+     
+    }
+  }
+
   useEffect(() => {
     getPlaylist();
-    
   }, []);
+
+  useEffect(() => {
+    if (isLoading==false && isAuthenticated){
+      getUserIdFavouritePlaylists();
+    } 
+  }, [user]);
 
   useEffect(() => {
     if (localStorage.getItem('currentSong')){
@@ -185,6 +216,41 @@ export default function Playlist() {
     dispatch(doPlay(playInfoUpdate));
   };
 
+  const handleUnFavouritePlaylists = async (playlistId, userId) => {
+    const res = await client.get(client.favouritePlaylists+'?playlistIds='+playlistId+'&userId='+userId);
+    if (res.response.ok){
+      if (res.data.length>0){
+        const id = res.data[0].id;
+        const resDelete = await client.delete(client.favouritePlaylists, id);
+        console.log(resDelete);
+      }
+    }
+  }
+
+  const handleAddFavouritePlaylists = async (playlistId, userId) => {
+    const item = {
+      playlistIds: playlistId,
+      userId: userId
+    }
+   
+    const res = await client.post(client.favouritePlaylists, item);
+    if (res.response.ok){
+      setIsFavouritePlaylists(true);
+    }
+  }
+
+  const handleFavouritePlaylists = (e) => {
+    e.preventDefault();
+    if (isLoading==false && isAuthenticated){
+      if (!isFavouritePlaylists){
+        handleAddFavouritePlaylists(parseInt(id), user.id);
+      }
+      //handleUnFavouritePlaylists(parseInt(id), user.id);
+    }else{
+      loginWithRedirect({ui_locales: 'vi'});
+    }
+  }
+
   const renderPlaylist = () => {
     
     let jsx = null;
@@ -250,8 +316,16 @@ export default function Playlist() {
                   }
                 </button>
                 <p className="text-center mt-2 favourite">
-                  <a href="">
-                    <i className="fa-regular fa-heart"></i>
+                  <a href="#" onClick={handleFavouritePlaylists}>
+                    {
+                      isLoading==false && isAuthenticated && isFavouritePlaylists
+                      ?
+                        <i className="fa-solid fa-heart"></i>
+                      :
+                      <i className="fa-regular fa-heart"></i>
+                    }
+                    
+                    
                   </a>
                 </p>
               </div>

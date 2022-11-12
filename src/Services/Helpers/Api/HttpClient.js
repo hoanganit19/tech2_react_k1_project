@@ -14,6 +14,8 @@ export default class HttpClient{
         this.songPlaylists = '/song_playlists';
         this.songSingle = '/song_single';
         this.single = '/singles';
+        this.users = '/users';
+        this.favouritePlaylists = '/favouritePlaylists';
     }
 
     getUrl = (url) => {
@@ -75,7 +77,10 @@ export default class HttpClient{
     } 
 
     delete = (url, id, token=null) => {
-        url = url+'/'+id;
+        if (id!==undefined){
+            url = url+'/'+id;
+        }
+       
         return this.callApi(url, 'DELETE', null, token);
     }
 }

@@ -12,16 +12,55 @@ import {
   doPlay,
   playerSelector,
 } from "../../Components/Player/playerSlice";
-import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import HttpClient from "../../Services/Helpers/Api/HttpClient";
 
+import { useAuth0 } from "@auth0/auth0-react";
+
+import { useSelector, useDispatch } from "react-redux";
+
+import { profileSelector, updateInfo } from "../Headers/profileSlice";
+
 const client = new HttpClient();
 
+let check = false;
+
 function Main() {
+  const dispatch = useDispatch();
+
+  const { user, isLoading, isAuthenticated } = useAuth0();
+
+  const addUser = async (user) => {
+    await client.post(client.users, user);
+  };
+
+  const syncUser = async (user) => {
+    const res = await client.get(client.users, { email: user.email });
+    if (res.response.ok) {
+      if (check == false) {
+        if (res.data.length === 0) {
+          addUser(user);
+        } else {
+          const userInfo = {
+            info: res.data[0],
+            isAuthenticated: isAuthenticated,
+            isLoading: isLoading
+          };
+
+          dispatch(updateInfo(userInfo));
+        }
+        check = true;
+      }
+    }
+  };
+
+  if (!isLoading && isAuthenticated) {
+    syncUser(user);
+  }
+
   const isOpenPlayer = useSelector(openPlayerSelector);
   const playInfo = useSelector(playerSelector);
-  const dispatch = useDispatch();
+
   const getSong = async (songId) => {
     const res = await client.get(client.songs + "/" + songId);
     if (res.response.ok) {
@@ -37,7 +76,7 @@ function Main() {
         }
       }
 
-      const {id, name, single, source, image} = song;
+      const { id, name, single, source, image } = song;
 
       //Gọi hàm để chạy Player
       dispatch(doOpenPlayer(true));
@@ -54,10 +93,8 @@ function Main() {
       };
       playInfoUpdate.isPlay = false;
 
-      dispatch(doPlay(playInfoUpdate))
+      dispatch(doPlay(playInfoUpdate));
     }
-
-    
   };
 
   useEffect(() => {
