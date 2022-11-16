@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Array from "../../Services/Helpers/Array/Array";
 import Number from "../../Services/Helpers/Number/Number";
 
-import {profileSelector} from '../../Layouts/Headers/profileSlice';
+import { profileSelector } from "../../Layouts/Headers/profileSlice";
 
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -40,7 +40,7 @@ export default function Playlist() {
   const [songPlaying, setSongPlaying] = useState(null);
 
   const [isFavouritePlaylists, setIsFavouritePlaylists] = useState(false);
- 
+
   const playInfo = useSelector(playerSelector);
 
   const { isPlay: playStatus } = playInfo;
@@ -49,9 +49,9 @@ export default function Playlist() {
 
   const userInfo = useSelector(profileSelector);
 
-  const {info: user, isLoading, isAuthenticated} = userInfo;
+  const { info: user, isLoading, isAuthenticated } = userInfo;
 
-  const {loginWithRedirect} = useAuth0();
+  const { loginWithRedirect } = useAuth0();
 
   const getPlaylist = async () => {
     const res = await client.get(client.playlists + "/" + id);
@@ -83,13 +83,13 @@ export default function Playlist() {
 
             if (resSongSingle.data.length) {
               let singles = [];
-             
+
               for (const index in resSongSingle.data) {
                 const { singleId } = resSongSingle.data[index];
                 const resSingle = await client.get(
                   client.single + "/" + singleId
                 );
-                
+
                 resSongs.data[index].single = resSingle.data;
 
                 singles.push(resSingle.data); //push ca sĩ hát trong cả playlist
@@ -117,38 +117,44 @@ export default function Playlist() {
   };
 
   const getUserIdFavouritePlaylists = async () => {
-    
-    const res = await client.get(client.favouritePlaylists, {playlistIds: id, userId: user.id});
-  
-    if (res.response.ok){
+    const res = await client.get(client.favouritePlaylists, {
+      playlistIds: id,
+      userId: user.id,
+      status: 1,
+    });
+
+    if (res.response.ok) {
       const data = res.data;
 
-      if (data.length){
+      if (data.length) {
         setIsFavouritePlaylists(true);
       }
-     
     }
-  }
+  };
 
   useEffect(() => {
     getPlaylist();
   }, []);
 
   useEffect(() => {
-    if (isLoading==false && isAuthenticated){
+    if (isLoading == false && isAuthenticated) {
       getUserIdFavouritePlaylists();
-    } 
+    }
   }, [user]);
 
   useEffect(() => {
-    if (localStorage.getItem('currentSong')){
-      const song = array.getItem(songs, 'id', localStorage.getItem('currentSong'));
-      
-      if (song){
+    if (localStorage.getItem("currentSong")) {
+      const song = array.getItem(
+        songs,
+        "id",
+        localStorage.getItem("currentSong")
+      );
+
+      if (song) {
         handlePlaySong(song, false, false);
       }
     }
-  }, [songs])
+  }, [songs]);
 
   useEffect(() => {
     if (playInfo.action === "next" || playInfo.action === "prev") {
@@ -177,12 +183,11 @@ export default function Playlist() {
     playInfoUpdate.isPlay = playStatus ? false : true;
 
     dispatch(doPlay(playInfoUpdate));
-   
-    if (songPlaying===null){
-      const index = number.getRandomInt(0, songs.length-1);
+
+    if (songPlaying === null) {
+      const index = number.getRandomInt(0, songs.length - 1);
       handlePlaySong(songs[index]);
     }
-  
   };
 
   //Click vào từng bài hát trong playlist
@@ -192,8 +197,8 @@ export default function Playlist() {
     isPlay = true
   ) => {
     setSongPlaying(id); //Cập nhật id bài hát muốn nghe
-    localStorage.setItem('currentSong', id);
-    localStorage.setItem('currentTimeSong', 0);
+    localStorage.setItem("currentSong", id);
+    localStorage.setItem("currentTimeSong", 0);
     //const { name: singleName } = single;
 
     const playInfoUpdate = { ...playInfo };
@@ -212,47 +217,78 @@ export default function Playlist() {
     } else {
       dispatch(doOpenPlayer(true));
     }
-  
+
     dispatch(doPlay(playInfoUpdate));
   };
 
   const handleUnFavouritePlaylists = async (playlistId, userId) => {
-    const res = await client.get(client.favouritePlaylists+'?playlistIds='+playlistId+'&userId='+userId);
-    if (res.response.ok){
-      if (res.data.length>0){
+    const res = await client.get(
+      client.favouritePlaylists +
+        "?playlistIds=" +
+        playlistId +
+        "&userId=" +
+        userId
+    );
+    if (res.response.ok) {
+      if (res.data.length > 0) {
         const id = res.data[0].id;
-        const resDelete = await client.delete(client.favouritePlaylists, id);
-        console.log(resDelete);
+        const updateRes = await client.patch(client.favouritePlaylists, id, {
+          status: 0,
+        });
+        if (updateRes.response.ok) {
+          setIsFavouritePlaylists(false);
+        }
       }
     }
-  }
+  };
 
   const handleAddFavouritePlaylists = async (playlistId, userId) => {
     const item = {
       playlistIds: playlistId,
-      userId: userId
+      userId: userId,
+      status: 1,
+    };
+
+    const res = await client.get(
+      client.favouritePlaylists +
+        "?playlistIds=" +
+        playlistId +
+        "&userId=" +
+        userId
+    );
+    if (res.response.ok) {
+      if (res.data.length == 0) {
+        const res = await client.post(client.favouritePlaylists, item);
+        if (res.response.ok) {
+          setIsFavouritePlaylists(true);
+        }
+      }else{
+        const id = res.data[0].id;
+        const updateRes = await client.patch(client.favouritePlaylists, id, {
+          status: 1,
+        });
+        if (updateRes.response.ok) {
+          setIsFavouritePlaylists(true);
+        }
+      }
     }
-   
-    const res = await client.post(client.favouritePlaylists, item);
-    if (res.response.ok){
-      setIsFavouritePlaylists(true);
-    }
-  }
+  };
 
   const handleFavouritePlaylists = (e) => {
     e.preventDefault();
-    if (isLoading==false && isAuthenticated){
-      if (!isFavouritePlaylists){
+    if (isLoading == false && isAuthenticated) {
+      if (!isFavouritePlaylists) {
         handleAddFavouritePlaylists(parseInt(id), user.id);
+      } else {
+        handleUnFavouritePlaylists(parseInt(id), user.id);
       }
       //handleUnFavouritePlaylists(parseInt(id), user.id);
-    }else{
-      loginWithRedirect({ui_locales: 'vi'});
+    } else {
+      loginWithRedirect({ ui_locales: "vi" });
     }
-  }
+  };
 
   const renderPlaylist = () => {
-    
     let jsx = null;
     if (status === "success") {
       const singles = singlePlaylist.map(({ id, name }, index) => {
@@ -297,35 +333,29 @@ export default function Playlist() {
                   className="btn btn-primary"
                   onClick={handlePlay}
                 >
-                  {
-                    songPlaying===null 
-                    ?
-                      <>
-                        <i className="fa-solid fa-play"></i> Phát ngẫu nhiên
-                      </>
-                    :
-                    playStatus ? (
-                      <>
-                        <i className="fa-solid fa-pause"></i> Tạm dừng
-                      </>
-                    ) : (
-                      <>
-                        <i className="fa-solid fa-play"></i> Tiếp tục phát
-                      </>
-                    )
-                  }
+                  {songPlaying === null ? (
+                    <>
+                      <i className="fa-solid fa-play"></i> Phát ngẫu nhiên
+                    </>
+                  ) : playStatus ? (
+                    <>
+                      <i className="fa-solid fa-pause"></i> Tạm dừng
+                    </>
+                  ) : (
+                    <>
+                      <i className="fa-solid fa-play"></i> Tiếp tục phát
+                    </>
+                  )}
                 </button>
                 <p className="text-center mt-2 favourite">
                   <a href="#" onClick={handleFavouritePlaylists}>
-                    {
-                      isLoading==false && isAuthenticated && isFavouritePlaylists
-                      ?
-                        <i className="fa-solid fa-heart"></i>
-                      :
+                    {isLoading == false &&
+                    isAuthenticated &&
+                    isFavouritePlaylists ? (
+                      <i className="fa-solid fa-heart"></i>
+                    ) : (
                       <i className="fa-regular fa-heart"></i>
-                    }
-                    
-                    
+                    )}
                   </a>
                 </p>
               </div>
@@ -342,7 +372,6 @@ export default function Playlist() {
                   {songs.length ? (
                     songs.map(
                       ({ id, name, duration, image, single, source }) => {
-                        
                         //const { name: singleName, id: singleId } = single;
                         return (
                           <tr
