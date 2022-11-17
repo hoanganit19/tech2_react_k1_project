@@ -5,31 +5,29 @@ import { profileSelector } from "../../Layouts/Headers/profileSlice";
 import { useSelector } from "react-redux";
 import Url from "../../Services/Helpers/Url/Url";
 import { Link } from "react-router-dom";
-import PlayListNoData from '../../Layouts/NoContent/PlayList'
+import PlayListNoData from "../../Layouts/NoContent/PlayList";
 
 const client = new HttpClient();
 const url = new Url();
 
-export default function Profile() {
+export default function MyPlaylist() {
   const [playlists, setPlaylists] = useState([]);
 
   const user = useSelector(profileSelector);
-  
+
   const userId = user?.info?.id;
 
   const getPlayLists = async () => {
-    if (userId!==undefined){
+    if (userId !== undefined) {
       const res = await client.get(client.favouritePlaylists, {
         userId: userId,
         status: 1,
         _expand: "playlist",
-        _limit: 4
       });
       if (res.response.ok) {
         setPlaylists(res.data);
       }
     }
-   
   };
 
   useEffect(() => {
@@ -38,10 +36,9 @@ export default function Profile() {
 
   return (
     <section className="profile">
-      <h1>Thư viện</h1>
+      <h1>Playlist</h1>
 
       <div className="profile__category">
-        <h2>Playlist <Link to={url.myPlaylist} className="float-end">Xem tất cả</Link></h2>
         {playlists?.length ? (
           <div className="row">
             {playlists.map(({ playlist }) => {

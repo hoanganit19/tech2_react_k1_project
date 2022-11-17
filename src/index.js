@@ -11,17 +11,17 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Provider store={store}>
-        <Auth0Provider
-          domain="dev-iv10e2kg.us.auth0.com"
-          clientId="Q8qZeZj2eKvjRiQnBccdyRQ2iPp2SXxt"
-          redirectUri={window.location.origin}
-        >
+    <Provider store={store}>
+      <Auth0Provider
+        domain="dev-iv10e2kg.us.auth0.com"
+        clientId="Q8qZeZj2eKvjRiQnBccdyRQ2iPp2SXxt"
+        redirectUri={window.location.origin}
+      >
+        <BrowserRouter>
           <App />
-        </Auth0Provider>
-      </Provider>
-    </BrowserRouter>
+        </BrowserRouter>
+      </Auth0Provider>
+    </Provider>
   </React.StrictMode>
 );
 

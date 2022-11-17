@@ -2,6 +2,10 @@
     .profile__category{
         h2{
             margin: 15px 0;
+            a{
+                font-size: 1.2rem;
+                color: #fff;
+            }
         }
         .categories--item{
             position: relative;

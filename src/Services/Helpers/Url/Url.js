@@ -13,6 +13,10 @@ export default class Url {
         this.song = '/bai-hat/{id}';
         this.playlist = '/danh-sach-phat/{id}';
         this.single = '/ca-sy/{id}'
+        this.myPlaylist = this.profile+'/danh-sach-phat';
+        this.myRecent = this.profile+'/gan-day';
+        this.myRecentSong = this.myRecent+'/bai-hat';
+        this.myRecentPlaylist = this.myRecent+'/danh-sach-phat';
     }
 
     getSearch = (params) => {

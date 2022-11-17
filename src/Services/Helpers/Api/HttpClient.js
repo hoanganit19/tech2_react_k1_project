@@ -16,6 +16,7 @@ export default class HttpClient{
         this.single = '/singles';
         this.users = '/users';
         this.favouritePlaylists = '/favourite_playlists';
+        this.recentPlaylists = '/recent_playlists';
     }
 
     getUrl = (url) => {

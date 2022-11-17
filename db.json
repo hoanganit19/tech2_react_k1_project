@@ -297,10 +297,28 @@
   ],
   "favourite_playlists": [
     {
-      "playlistIds": 1,
+      "playlistId": 1,
       "userId": 1,
       "status": 1,
       "id": 1
+    },
+    {
+      "playlistId": 2,
+      "userId": 1,
+      "status": 1,
+      "id": 2
+    }
+  ],
+  "recent_playlists": [
+    {
+      "userId": 1,
+      "playlistId": 1,
+      "id": 1
+    },
+    {
+      "userId": 1,
+      "playlistId": 2,
+      "id": 2
     }
   ],
   "options": {

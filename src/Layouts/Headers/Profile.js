@@ -18,6 +18,7 @@ export default function Profile() {
   const {info:user, isAuthenticated, isLoading} = userInfo;
 
   if (!isLoading){
+   
     localStorage.setItem('isLogin', isAuthenticated?1:0);
   }
 

@@ -24,7 +24,9 @@ const number = new Number();
 
 let isFirstLoad = true;
 
+
 export default function Playlist() {
+  let addedRecent = false;
   const params = useParams();
 
   const { id } = params;
@@ -51,7 +53,29 @@ export default function Playlist() {
 
   const { info: user, isLoading, isAuthenticated } = userInfo;
 
-  const { loginWithRedirect } = useAuth0();
+  const {loginWithRedirect} = useAuth0();
+
+  const addRecentPlaylists = async (userId) => {
+    
+    const resRecent = await client.get(client.recentPlaylists, {
+      userId: parseInt(userId),
+      playlistId: parseInt(id),
+    });
+
+    if (resRecent.response.ok) {
+      if (resRecent.data.length == 0 && !addedRecent) {
+        addedRecent = true;
+
+        await client.post(client.recentPlaylists, {
+          userId: parseInt(userId),
+          playlistId: parseInt(id),
+        });
+
+       
+        
+      }
+    }
+  };
 
   const getPlaylist = async () => {
     const res = await client.get(client.playlists + "/" + id);
@@ -118,7 +142,7 @@ export default function Playlist() {
 
   const getUserIdFavouritePlaylists = async () => {
     const res = await client.get(client.favouritePlaylists, {
-      playlistIds: id,
+      playlistId: id,
       userId: user.id,
       status: 1,
     });
@@ -139,6 +163,7 @@ export default function Playlist() {
   useEffect(() => {
     if (isLoading == false && isAuthenticated) {
       getUserIdFavouritePlaylists();
+      addRecentPlaylists(user?.id);
     }
   }, [user]);
 
@@ -224,7 +249,7 @@ export default function Playlist() {
   const handleUnFavouritePlaylists = async (playlistId, userId) => {
     const res = await client.get(
       client.favouritePlaylists +
-        "?playlistIds=" +
+        "?playlistId=" +
         playlistId +
         "&userId=" +
         userId
@@ -244,14 +269,14 @@ export default function Playlist() {
 
   const handleAddFavouritePlaylists = async (playlistId, userId) => {
     const item = {
-      playlistIds: playlistId,
+      playlistId: playlistId,
       userId: userId,
       status: 1,
     };
 
     const res = await client.get(
       client.favouritePlaylists +
-        "?playlistIds=" +
+        "?playlistId=" +
         playlistId +
         "&userId=" +
         userId
@@ -262,7 +287,7 @@ export default function Playlist() {
         if (res.response.ok) {
           setIsFavouritePlaylists(true);
         }
-      }else{
+      } else {
         const id = res.data[0].id;
         const updateRes = await client.patch(client.favouritePlaylists, id, {
           status: 1,

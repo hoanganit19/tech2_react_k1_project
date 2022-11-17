@@ -1,0 +1,17 @@
+.recents{
+.nav{
+    border-bottom: 1px solid #efefef;
+    li{
+       
+        a{
+            color: #fff;
+            &.active{
+                border-bottom: 4px solid rgb(188, 0, 198)
+             }
+        }
+
+        
+    }
+   
+}
+}

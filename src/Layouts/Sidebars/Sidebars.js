@@ -4,11 +4,15 @@ import { Link, NavLink } from "react-router-dom";
 import Url from "../../Services/Helpers/Url/Url";
 import { isLogin } from "../../Middlewares/AuthMiddleware";
 import Options from "../../Services/Helpers/Options/Options";
+
 const optionObj = new Options();
 const url = new Url();
 
-export default function Sidebars() {
+const checkLogin = isLogin();
 
+export default function Sidebars() {
+  //console.log(isLogin())
+  
   const [logo, setLogo] = useState('');
 
   const getLogo = async () => {
@@ -57,7 +61,7 @@ export default function Sidebars() {
             </li>
           </ul>
 
-          {isLogin() && (
+          {checkLogin && (
             <>
               <h4 className="nav-group">Thư viện</h4>
               <ul className="nav flex-column">
@@ -68,15 +72,15 @@ export default function Sidebars() {
                 </li>
 
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#">
+                  <Link className="nav-link" to={url.myPlaylist}>
                     Playlist
-                  </a>
+                  </Link>
                 </li>
 
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#">
+                  <Link className="nav-link" to={url.myRecent}>
                     Gần đây
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </>
